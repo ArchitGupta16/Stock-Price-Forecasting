@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify, request
 import yfinance as yf
 
-api_blueprint = Blueprint("api", __name__)
+api_blueprint = Blueprint("stock", __name__)
 
 # API Route to fetch stock data
-@api_blueprint.route("/stock_data", methods=["POST"])
+@api_blueprint.route("/monthly", methods=["POST"])
 def get_stock_data():
     try:
         data = yf.download(request.json.get("symbol", "AAPL"), period="1mo")

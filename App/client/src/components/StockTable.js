@@ -13,7 +13,7 @@ const StockTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('/api/stock_data',{symbol}); 
+        const response = await axios.post('http://127.0.0.1:5000/stock/monthly',{symbol}); 
         const data = response.data.data;
         const parsedData = JSON.parse(data);
         setStockData(parsedData);

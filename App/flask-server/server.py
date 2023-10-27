@@ -1,16 +1,14 @@
-from flask import Flask, jsonify
+from flask import Flask, request
 from flask_cors import CORS
-from data import api_blueprint
+import Routes.stockRoutes as sr
+import Routes.db as db
 
 app = Flask(__name__)
+
 CORS(app) 
 
-app.register_blueprint(api_blueprint, url_prefix="/api")
-# API Route
-# @app.route("/api/members")
-# def members():
-#     data = {"members": ["Member1", "Member2", "Member3"]}
-#     return jsonify(data)
+app.register_blueprint(sr.api_blueprint, url_prefix="/stock")
+app.register_blueprint(db.user_blueprint, url_prefix="/user")
 
 if __name__ == "__main__":
     app.run(debug=True)
