@@ -1,9 +1,10 @@
-const { createProxyMiddleware } = require('http-proxy-middleware');
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = function (app) {
   app.use(
+    "/api",
     createProxyMiddleware({
-      target: 'http://127.0.0.1:5000', // The address of your Flask server
+      target: "http://127.0.0.1:5000", // The address of your Flask server
       changeOrigin: true,
     })
   );
