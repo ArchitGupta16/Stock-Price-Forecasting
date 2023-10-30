@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'; 
-
 const StockTable = () => {
   const [stockData, setStockData] = useState([]);
   const [loading, setLoading] = useState(true);

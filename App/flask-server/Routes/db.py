@@ -3,8 +3,8 @@ from flask import Blueprint, request
 
 user_blueprint = Blueprint("user", __name__)
 
-client = MongoClient('mongodb://127.0.0.1/demo') 
-db = client['demo'] 
+client = MongoClient('mongodb://admin:password@localhost:8100') 
+db = client['user'] 
 collection = db['data'] 
 
 @user_blueprint.route('/add_data', methods=['POST']) 

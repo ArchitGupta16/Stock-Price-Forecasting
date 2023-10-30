@@ -13,3 +13,15 @@ def get_stock_data():
         return jsonify({"data": data_json})
     except Exception as e:
         return jsonify({"error": str(e)})
+
+@api_blueprint.route("/news", methods=["POST"])
+def get_news_for_symbol():
+    symbol = request.json.get("symbol", "AAPL")
+
+    try:
+        stock_info = yf.Ticker(symbol)
+        news = stock_info.news
+
+        return jsonify({"news": news})
+    except Exception as e:
+        return jsonify({"error": str(e)})
