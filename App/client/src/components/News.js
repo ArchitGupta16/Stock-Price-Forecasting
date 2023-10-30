@@ -26,28 +26,60 @@ const News = () => {
     return <p>Loading news...</p>;
   }
 
+  const imageStyle = {
+    maxWidth: '250px',   // Set the maximum image width
+    maxHeight: '250px',  // Set the maximum image height
+  };
+
+  const newsItemStyle = {
+    marginBottom: '10px', // Add margin between each news item
+  };
+
+  const titleStyle = {
+    fontSize: '18px',    // Set the font size for the news title
+  };
+
+  const sourceStyle = {
+    fontSize: '16px',    // Set the font size for the news title
+  };
+
+  const scrollableContainerStyle = {
+    height: '75vh',  
+    overflowY: 'scroll', // Add vertical scroll
+    overflowX: 'hidden', // Hide horizontal scroll
+  };
+
+  
+
+
+
   return (
     <div>
-      <h2>News for AAPL</h2>
+      
+      <div style={scrollableContainerStyle} className="shadow p-4 mb-5 bg-white rounded">
+      <h4>News for AAPL</h4>
       <Row>
         {news.map((item, index) => (
-          <Col key={index} md={6}>
-            <Card className="news-card">
+          <Row key={index} className="news-item" style={newsItemStyle}>
+            <Col md={3}>
               {item.thumbnail && item.thumbnail.resolutions && (
-                <Card.Img variant="top" src={item.thumbnail.resolutions[0].url} />
+                <Card.Img variant="top" src={item.thumbnail.resolutions[0].url} style={imageStyle} />
               )}
+            </Col>
+            <Col md={7}>
               <Card.Body>
-                <Card.Title className="news-title">{item.title}</Card.Title>
+                <Card.Title className="news-title" style={titleStyle}>{item.title}</Card.Title>
                 <Card.Text className="news-summary">{item.summary}</Card.Text>
-                <Card.Text className="news-source">{item.publisher}</Card.Text>
+                <Card.Text className="news-source" style={sourceStyle}>{item.publisher}</Card.Text>
                 <Card.Link href={item.link} className="news-url" target="_blank" rel="noopener noreferrer">
                   Read more
                 </Card.Link>
               </Card.Body>
-            </Card>
-          </Col>
+            </Col>
+          </Row>
         ))}
       </Row>
+      </div>
     </div>
   );
 };

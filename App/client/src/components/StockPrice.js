@@ -78,12 +78,12 @@ const StockPrice = () => {
     </Navbar>
     <hr className="hr-custom" style={{ width: '85%', margin: '0 auto', marginTop: '15px',color: '#330066', borderWidth: '3px',opacity:'1' }} />
     <br/>
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100%' ,minWidth:"90%"}}>
       <Row>
-        <Col md={7}>
+        <Col style={{marginTop:"2%"}} >
           <News />
         </Col>
-        <Col md={5} style={{marginTop:"30vh"}}>
+        <Col  style={{marginTop:"10%",marginLeft:'10%'}}>
           <Card variant="primary" style={{ width: '25rem', padding: '15px' }}>
             <h2 className="text-center">Check Stock Price</h2>
             <Form>
