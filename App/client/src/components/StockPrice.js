@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import {
-  Form,
-  Button,
-  Container,
-  Row,
-  Col,
-  Card,
-  CardBody,
-  Nav,
-  Navbar,
-} from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, CardBody, Nav} from "react-bootstrap";
 import { useHistory, useNavigate } from "react-router-dom";
-// import News from "./News";
+import NavBar from "./NavBar";
 
 const StockPrice = () => {
   const [price, setPrice] = useState(null);
@@ -82,29 +72,7 @@ const StockPrice = () => {
 
   return (
     <div>
-      <Navbar sticky="top" className="bg-blue-500 p-2">
-        <Navbar.Brand href="/" className="text-white text-2xl font-bold">
-          SPF Home
-        </Navbar.Brand>
-        <Nav>
-          <Nav.Link href="/" className="text-white">
-            Forecast
-          </Nav.Link>
-          <Nav.Link href="/other" className="text-white">
-            About Us
-          </Nav.Link>
-          <Nav.Link href="/other" className="text-white">
-            Register
-          </Nav.Link>
-          <Nav.Link
-            href="/other"
-            className="text-white"
-            style={{ marginRight: "1vw" }}
-          >
-            Login
-          </Nav.Link>
-        </Nav>
-      </Navbar>
+      <NavBar/>
       <hr className="my-4" />
       <Container className="flex justify-center items-center h-screen">
         <Row>

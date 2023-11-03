@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import StockTable from "./components/StockTable";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
+import AboutUs from "./components/AboutUs";
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/stock-chart/:symbol" element={<StockTable />} />
+        <Route path="/stockdetails" element={<StockPrice />} />
         <Route path="/predict" element={<StockPrice />} />
+        <Route path="/aboutUs" element={<AboutUs />} />
         {/* <Route path="/stock-news" element={<News />} /> */}
       </Routes>
       {/* <StockPrice />

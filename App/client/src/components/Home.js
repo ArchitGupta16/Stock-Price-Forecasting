@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Row, Col } from "react-bootstrap";
-import { Navbar, Nav } from "react-bootstrap";
+import { Card, Row, Col, Container, Button } from "react-bootstrap";
+import NavBar from "./NavBar";
 
 const Home = () => {
   const [news, setNews] = useState([]);
@@ -25,85 +25,88 @@ const Home = () => {
     fetchNews();
   }, []);
 
-  // if (loading) {
-  //   return <p>Loading news...</p>;
-  // }
-
   return (
-    <div className="flex">
-      {/* Left side for news */}
-      <div className="w-1/2 p-4">
-        <div>
-          <Navbar sticky="top" className="">
-            <Navbar.Brand href="/" className="">
-              SPF Home
-            </Navbar.Brand>
-            <Nav>
-              <Nav.Link href="/">Forecast</Nav.Link>
-              <Nav.Link href="/other">About Us</Nav.Link>
-              <Nav.Link href="/other">Register</Nav.Link>
-              <Nav.Link href="/other" style={{ marginRight: "1vw" }}>
-                Login
-              </Nav.Link>
-            </Nav>
-          </Navbar>
-        </div>
-        <div className="shadow p-4 mb-5 bg-white rounded">
-          <h4>News for AAPL</h4>
-          <Row>
-            {news.map((item, index) => (
-              <Row key={index} className="news-item">
-                <Col md={3}>
-                  {item.thumbnail && item.thumbnail.resolutions && (
-                    <Card.Img
-                      variant="top"
-                      src={item.thumbnail.resolutions[0].url}
-                    />
-                  )}
+    <div >
+      <Container fluid>
+        <NavBar />
+        <Row >
+          <Col md={6} >
+            <div className="shadow p-4 mb-5 bg-white rounded" style={{ marginLeft:"10px",maxHeight: "90vh", overflowY: "auto", padding: "20px" }}>
+              <h4>News for AAPL</h4>
+              {news.map((item, index) => (
+                <Row key={index} className="news-item">
+                  <Col md={3}>
+                    {item.thumbnail && item.thumbnail.resolutions && (
+                      <Card.Img
+                        variant="top"
+                        src={item.thumbnail.resolutions[0].url}
+                      />
+                    )}
+                  </Col>
+                  <Col md={9}>
+                    <Card.Body>
+                      <Card.Title className="news-title">{item.title}</Card.Title>
+                      <Card.Text className="news-summary">{item.summary}</Card.Text>
+                      <Card.Text className="news-source">{item.publisher}</Card.Text>
+                      <Card.Link
+                        href={item.link}
+                        className="news-url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Read more
+                      </Card.Link>
+                    </Card.Body>
+                  </Col>
+                </Row>
+              ))}
+            </div>
+          </Col>
+
+          <Col md={6} className="d-flex flex-column align-items-center justify-content-center">
+            <Container>
+              <Row>
+                <Col md={6}>
+                  <Card className="mb-3" style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Card 1</Card.Title>
+                      <Card.Text>This is the content for Card 1.</Card.Text>
+                      <Button variant="primary">Details</Button>
+                    </Card.Body>
+                  </Card>
                 </Col>
-                <Col md={7}>
-                  <Card.Body>
-                    <Card.Title className="news-title">{item.title}</Card.Title>
-                    <Card.Text className="news-summary">
-                      {item.summary}
-                    </Card.Text>
-                    <Card.Text className="news-source">
-                      {item.publisher}
-                    </Card.Text>
-                    <Card.Link
-                      href={item.link}
-                      className="news-url"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      Read more
-                    </Card.Link>
-                  </Card.Body>
+                <Col md={6}>
+                  <Card className="mb-3" style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Card 2</Card.Title>
+                      <Card.Text>This is the content for Card 2.</Card.Text>
+                      <Button variant="primary">Details</Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col md={6}>
+                  <Card className="mb-3" style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Card 3</Card.Title>
+                      <Card.Text>This is the content for Card 3.</Card.Text>
+                      <Button variant="primary">Details</Button>
+                    </Card.Body>
+                  </Card>
+                </Col>
+                <Col md={6}>
+                  <Card className="mb-3" style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Card 4</Card.Title>
+                      <Card.Text>This is the content for Card 4.</Card.Text>
+                      <Button variant="primary">Details</Button>
+                    </Card.Body>
+                  </Card>
                 </Col>
               </Row>
-            ))}
-          </Row>
-        </div>
-      </div>
-
-      {/* Right side for cards */}
-      <div className="w-1/2 p-4">
-        <div className="grid grid-cols-2 gap-4">
-          {/* Four card components */}
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            {/* Card content */}
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            {/* Card content */}
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            {/* Card content */}
-          </div>
-          <div className="bg-white p-4 shadow-md rounded-lg">
-            {/* Card content */}
-          </div>
-        </div>
-      </div>
+            </Container>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
