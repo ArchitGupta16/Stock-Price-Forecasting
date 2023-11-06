@@ -32,7 +32,7 @@ const Home = () => {
         <Row >
           <Col md={6} >
             <div className="shadow p-4 mb-5 bg-white rounded" style={{ marginLeft:"10px",maxHeight: "90vh", overflowY: "auto", padding: "20px" }}>
-              <h4>News for AAPL</h4>
+              <h4>Trending News</h4>
               {news.map((item, index) => (
                 <Row key={index} className="news-item">
                   <Col md={3}>
@@ -40,19 +40,21 @@ const Home = () => {
                       <Card.Img
                         variant="top"
                         src={item.thumbnail.resolutions[0].url}
+                        
                       />
                     )}
                   </Col>
                   <Col md={9}>
                     <Card.Body>
-                      <Card.Title className="news-title">{item.title}</Card.Title>
+                      <Card.Title className="news-title" >{item.title}</Card.Title>
                       <Card.Text className="news-summary">{item.summary}</Card.Text>
-                      <Card.Text className="news-source">{item.publisher}</Card.Text>
+                      <Card.Text className="news-source" >{item.publisher}</Card.Text>
                       <Card.Link
                         href={item.link}
                         className="news-url"
                         target="_blank"
                         rel="noopener noreferrer"
+                        style={{fontSize:"13px"}}
                       >
                         Read more
                       </Card.Link>
