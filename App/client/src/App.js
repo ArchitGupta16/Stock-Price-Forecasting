@@ -5,6 +5,8 @@ import StockTable from "./components/StockTable";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import AboutUs from "./components/AboutUs";
+import UserAuth from "./components/Login";
+import Portfolio from "./components/Portfolio";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/stockdetails" element={<StockPrice />} />
         <Route path="/predict" element={<StockPrice />} />
         <Route path="/aboutUs" element={<AboutUs />} />
+        <Route path="/userAuth" element={<UserAuth/>} />
+        <Route path="/portfolio" element={<Portfolio/>} />
         {/* <Route path="/stock-news" element={<News />} /> */}
       </Routes>
       {/* <StockPrice />
