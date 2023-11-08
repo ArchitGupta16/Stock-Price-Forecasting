@@ -1,28 +1,73 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Table, Card, Form, Button } from 'react-bootstrap';
 import NavBar from './NavBar';
+import axios from 'axios';
 
 const Portfolio = () => {
-  const [portfolioData, setPortfolioData] = useState([
-    { id: 1, symbol: 'AAPL', shares: 50, purchasePrice: 150.0, currentPrice: 160.0 },
-    { id: 2, symbol: 'GOOGL', shares: 20, purchasePrice: 2500.0, currentPrice: 2600.0 },
-  ]);
-
+  const [portfolioData, setPortfolioData] = useState([]);
   const [newStock, setNewStock] = useState({ symbol: '', shares: 0, purchasePrice: 0, currentPrice: 0 });
 
-  const totalValue = portfolioData.reduce((total, stock) => total + stock.shares * stock.currentPrice, 0);
-  const totalPurchaseValue = portfolioData.reduce((total, stock) => total + stock.shares * stock.purchasePrice, 0);
+  const totalValue = portfolioData.reduce((total, stock) => total + stock.volume * stock.current_val, 0);
+  const totalPurchaseValue = portfolioData.reduce((total, stock) => total + stock.volume * stock.price, 0);
   const gainLoss = totalValue - totalPurchaseValue;
 
-  const addStock = () => {
-    const newId = Math.max(...portfolioData.map((stock) => stock.id), 0) + 1;
-    setPortfolioData([...portfolioData, { ...newStock, id: newId }]);
-    setNewStock({ symbol: '', shares: 0, purchasePrice: 0, currentPrice: 0 });
+  // Fetch the portfolio using emailId in the localstorage and set the portfolioData
+  useEffect(() => {
+    fetchPortfolio();
+  }, []);
+
+  const fetchPortfolio = async () => {
+    const emailId = localStorage.getItem('userName');
+    axios.post('http://127.0.0.1:5000/prf/getall', { email:emailId })
+    .then((response) => {
+      console.log(response.data.stocks);
+      setPortfolioData(response.data.stocks);
+    }
+    )
+    .catch((error) => {
+      console.log(error);
+    }
+    );
   };
 
-  const deleteStock = (id) => {
-    setPortfolioData(portfolioData.filter((stock) => stock.id !== id));
+  const addStock = async () => {
+    const emailId = localStorage.getItem('userName');
+    const newId = Math.max(...portfolioData.map((stock) => stock.id), 0) + 1;
+    const newStockData = { ...newStock, id: newId, email: emailId };
+    console.log(newStockData);
+    axios.post('http://127.0.0.1:5000/prf/add', newStockData)
+    .then((response) => {
+      console.log(response.data);
+      setPortfolioData([...portfolioData, newStockData]);
+      fetchPortfolio();
+    }
+    )
+    .catch((error) => {
+      console.log(error);
+    }
+    );
   };
+  
+  const deleteStock = async (symbol) => {
+    const emailId = localStorage.getItem('userName');
+    console.log(emailId);
+    console.log(symbol);
+    axios.post('http://127.0.0.1:5000/prf/remove', { email: emailId, symbol: symbol })
+    .then((response) => {
+      console.log(response.data);
+      setPortfolioData(portfolioData.filter((stock) => stock.symbol !== symbol));
+    }
+    )
+    .catch((error) => {
+      console.log(error);
+    }
+    );
+  };
+
+
+  // const deleteStock = (id) => {
+  //   setPortfolioData(portfolioData.filter((stock) => stock.id !== id));
+  // };
 
   return (
     <div>
@@ -46,14 +91,14 @@ const Portfolio = () => {
               {portfolioData.map((stock) => (
                 <tr key={stock.id}>
                   <td>{stock.symbol}</td>
-                  <td>{stock.shares}</td>
-                  <td>${stock.purchasePrice.toFixed(2)}</td>
-                  <td>${stock.currentPrice.toFixed(2)}</td>
-                  <td>${(stock.shares * stock.currentPrice).toFixed(2)}</td>
+                  <td>{stock.volume}</td>
+                  <td>${stock.price}</td>
+                  <td>${stock.current_val}</td>
+                  <td>${(stock.volume * stock.current_val)}</td>
                   <td>
                     <Button
                       variant="danger"
-                      onClick={() => deleteStock(stock.id)}
+                      onClick={() => deleteStock(stock.symbol)}
                       className="btn-sm"
                     >
                       Delete
