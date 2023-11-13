@@ -6,21 +6,25 @@ const AboutUs = () => {
   return (
     <div>
     <NavBar />
-    <Container className="my-5">
+   
 
-    {/* <h1 className="text-center ">About Us</h1> */}
     <h1 className="text-center">Built for Traders</h1>
       <br/>
-      <p className="mt-4 text-center h4">
+      <br/>
+      <br/>
+
+      <p className="mt-4 text-center h3">
         Look First | Then Leap. It's what you'd call our philosophy,<br />
             that it doesn't matter who you are or what you trade,<br />
            preparing then committing is the best way of maximizing<br />
                             life's returns.<br />
       </p>
         <br/>
-      <Row className="mt-4">
-        <Col md={4}>
-          <Card>
+        <br/>
+        <br/>
+      <Row className="mt-4 content-center">
+        <Col md={3}>
+          <Card className='bg-white shadow-lg '>
             <Card.Body>
               <Card.Title>Our Users are our investors</Card.Title>
               <Card.Text>
@@ -30,8 +34,8 @@ const AboutUs = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}>
-          <Card>
+        <Col md={3}>
+          <Card className='bg-white shadow-lg '>
             <Card.Body>
               <Card.Title>It's not charts,It's not freedom</Card.Title>
               <Card.Text>
@@ -43,8 +47,8 @@ const AboutUs = () => {
             </Card.Body>
           </Card>
         </Col>
-        <Col md={4}>
-          <Card>
+        <Col md={3}>
+          <Card className='bg-white shadow-lg '>
             <Card.Body>
               <Card.Title>Finance should be social</Card.Title>
               <Card.Text>
@@ -56,7 +60,6 @@ const AboutUs = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
     </div>
   );
 };

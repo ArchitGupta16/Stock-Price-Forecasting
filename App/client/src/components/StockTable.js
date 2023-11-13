@@ -96,7 +96,10 @@ const StockTable = () => {
         </Col>
         
       </Row>
-      
+      <Col>
+      <h2>Stock Price Chart</h2>
+      <Line data={chartData} />
+    </Col>
     </Container>
   );
 };

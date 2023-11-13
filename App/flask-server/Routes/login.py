@@ -28,6 +28,17 @@ def login():
     else:
         return jsonify({"message": "Incorrect password"})
 
+@user_blueprint.route('/glogin', methods=['POST'])
+def glogin():
+    data = request.get_json()
+    email = data['email']
+
+    user = user_collection.find_one({'email': email})
+    if not user:
+        return jsonify({"message": "User not found"})
+    else:
+        return jsonify({"message": "Login successful"})
+    
 # Get all users Route
 @user_blueprint.route('/getusers', methods=['GET'])
 def get_users():

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, Carousel, InputGroup, FormControl } from 'react-bootstrap';
+import {Toast, Form, Button, Container, Row, Col, Carousel, InputGroup, FormControl } from 'react-bootstrap';
 import axios from 'axios';
 import NavBar from './NavBar';
 import { useNavigate  } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+
 
 const UserAuth = () => {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -10,7 +12,9 @@ const UserAuth = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [name, setName] = useState('');
   const navigate = useNavigate();
-
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
@@ -49,6 +53,52 @@ const UserAuth = () => {
     }
   };
 
+  const decodeJwtResponse = (token) => {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+  
+    return JSON.parse(jsonPayload);
+  }
+
+  const credentialResponse = async (res) => {
+    const decoded = decodeJwtResponse(res.credential);
+    const result = {
+      email: decoded.email,
+      familyname: decoded.family_name, // last name
+      name: decoded.name,
+      givenName: decoded.given_name, // first name
+      googleID: decoded.sub,
+      imageUrl: decoded.picture,
+      isAdmin: true,
+      loginType: "google",
+      cred: res.credential
+  }
+  axios.post('http://127.0.0.1:5000/user/glogin', {email: result.email}).
+      then((response) => {
+        console.log(response.data);
+        if(response.data.message == "User not found"){
+          setShowToast(true);
+          setToastMessage("Please Register First");
+          return;
+        }
+        localStorage.setItem('userName', result.email);
+        navigate('/portfolio');
+      })
+      .catch((error) => {
+        console.log(error);
+      }
+      );
+  }
+
+  const credentialError = (error) => {
+    setShowToast(true);
+    console.error(error);
+  };
+
+
   const slideshowImages = [
     'https://media.licdn.com/dms/image/C5612AQHFS24TyOdTyA/article-cover_image-shrink_600_2000/0/1631788301339?e=2147483647&v=beta&t=oze0QUlnGVBZs59UrBYWBhgEId3IcgFgywlIB1t-B7s',
     'https://daxg39y63pxwu.cloudfront.net/images/blog/stock-price-prediction-using-machine-learning-project/Stock_Price_Prediction.webp',
@@ -57,6 +107,19 @@ const UserAuth = () => {
 
   return (
     <div >
+      <Toast onClose={() => setShowToast(false)} show={showToast} delay={5000} autohide  className="position-absolute top-0">
+        <Toast.Header>
+          <img
+            src="holder.js/20x20?text=%20"
+            className="rounded me-2"
+            alt=""
+          />
+          <strong className="me-auto">Error Login</strong>
+          <small>Just Now</small>
+        </Toast.Header>
+        <Toast.Body >Please Register First</Toast.Body>
+      </Toast>
+
       <NavBar />
       <Container className="bg-white p-4 border rounded-lg shadow-lg shadow-black" style={{marginTop:"10%"}}>
         <Row>
@@ -74,6 +137,9 @@ const UserAuth = () => {
               ))}
             </Carousel>
           </Col>
+
+          
+
           <Col md={6}>
             <div className="d-flex justify-content-between mb-4">
               <Button
@@ -113,10 +179,17 @@ const UserAuth = () => {
                       />
                     </InputGroup>
                   </Form.Group>
+                  <div className="flex justify-center">
                   <Button variant="primary" type="submit">
                     Login
                   </Button>
-                </Form>
+                      <GoogleLogin
+                      onSuccess={credentialResponse}
+                      onError={credentialError}
+                    />
+                    </div>
+                  </Form>
+               
               </div>
             ) : (
               <div>
@@ -156,6 +229,7 @@ const UserAuth = () => {
                     Register
                   </Button>
                 </Form>
+                
               </div>
             )}
           </Col>

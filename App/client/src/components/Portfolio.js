@@ -6,7 +6,7 @@ import axios from 'axios';
 const Portfolio = () => {
   const [portfolioData, setPortfolioData] = useState([]);
   const [newStock, setNewStock] = useState({ symbol: '', shares: 0, purchasePrice: 0, currentPrice: 0 });
-
+  const emailId = localStorage.getItem('userName');
   const totalValue = portfolioData.reduce((total, stock) => total + stock.volume * stock.current_val, 0);
   const totalPurchaseValue = portfolioData.reduce((total, stock) => total + stock.volume * stock.price, 0);
   const gainLoss = totalValue - totalPurchaseValue;
@@ -17,7 +17,7 @@ const Portfolio = () => {
   }, []);
 
   const fetchPortfolio = async () => {
-    const emailId = localStorage.getItem('userName');
+    // const emailId = localStorage.getItem('userName');
     axios.post('http://127.0.0.1:5000/prf/getall', { email:emailId })
     .then((response) => {
       console.log(response.data.stocks);
@@ -31,7 +31,7 @@ const Portfolio = () => {
   };
 
   const addStock = async () => {
-    const emailId = localStorage.getItem('userName');
+    // const emailId = localStorage.getItem('userName');
     const newId = Math.max(...portfolioData.map((stock) => stock.id), 0) + 1;
     const newStockData = { ...newStock, id: newId, email: emailId };
     console.log(newStockData);
@@ -49,7 +49,7 @@ const Portfolio = () => {
   };
   
   const deleteStock = async (symbol) => {
-    const emailId = localStorage.getItem('userName');
+    // const emailId = localStorage.getItem('userName');
     console.log(emailId);
     console.log(symbol);
     axios.post('http://127.0.0.1:5000/prf/remove', { email: emailId, symbol: symbol })
@@ -64,54 +64,59 @@ const Portfolio = () => {
     );
   };
 
-
-  // const deleteStock = (id) => {
-  //   setPortfolioData(portfolioData.filter((stock) => stock.id !== id));
-  // };
-
   return (
     <div>
-    <NavBar />
-    <Container className="mt-4">
-      <h1 className="mb-4">My Portfolio</h1>
-      <Row>
-        <Col md={8}>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Stock Symbol</th>
-                <th>Shares</th>
-                <th>Purchase Price</th>
-                <th>Current Price</th>
-                <th>Current Value</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {portfolioData.map((stock) => (
-                <tr key={stock.id}>
-                  <td>{stock.symbol}</td>
-                  <td>{stock.volume}</td>
-                  <td>${stock.price}</td>
-                  <td>${stock.current_val}</td>
-                  <td>${(stock.volume * stock.current_val)}</td>
-                  <td>
-                    <Button
-                      variant="danger"
-                      onClick={() => deleteStock(stock.symbol)}
-                      className="btn-sm"
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </Col>
-        <Col md={4}>
+      <NavBar />
+      <Container className="mt-5 h-screen w-screen" >
+        <Row md={12}>
+          <Col md={9}>
+            <h1 className="mb-5 ">Portfolio</h1>
+          </Col>
+          <Col md={3} className='items-end' >
+            <Card className="mb-5 bg-white ">
+              <Card.Body>
+                <Card.Text>
+                  <p className="text-center text-x1 text-bold font-semibold">{emailId}</p>
+                 
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          
+          <Col md={8}>
+          <Row>
+              {portfolioData.length === 0 ? (
+                <p>No stocks available</p>
+              ) : (
+                portfolioData.map((stock) => (
+                  <Col md={4} key={stock.id}>
+                    <Card className="mb-4 bg-white shadow-lg">
+                      <Card.Body>
+                        <Card.Title>{stock.symbol}</Card.Title>
+                        <Card.Text>
+                          <p className="text-bold">Shares: {stock.volume}</p>
+                          <p className="text-bold">Purchase Price: ${stock.price}</p>
+                          <p className="text-bold">Current Price: ${stock.current_val}</p>
+                          <p className="text-bold">Current Value: ${(stock.volume * stock.current_val)}</p>
+                        </Card.Text>
+                        <Button
+                          variant="danger"
+                          onClick={() => deleteStock(stock.symbol)}
+                          className="btn-sm"
+                        >
+                          Delete
+                        </Button>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))
+              )}
+            </Row>
+          </Col>
+
+          <Col md={4}>
           <Card>
-            <Card.Body>
+            <Card.Body className='bg-white shadow-lg '>
               <Card.Title className="mb-4">Portfolio Summary</Card.Title>
               <div className="text-center">
                 <p className="font-weight-bold">Total Value</p>
@@ -124,7 +129,7 @@ const Portfolio = () => {
               </div>
             </Card.Body>
           </Card>
-          <Card className="mt-4">
+          <Card className="mt-4 bg-white shadow-lg ">
             <Card.Body>
               <Card.Title className="mb-4">Add New Stock</Card.Title>
               <Form>
@@ -164,15 +169,18 @@ const Portfolio = () => {
                     onChange={(e) => setNewStock({ ...newStock, currentPrice: parseFloat(e.target.value) })}
                   />
                 </Form.Group>
+                <br />
                 <Button variant="primary" onClick={addStock}>
                   Add Stock
                 </Button>
               </Form>
             </Card.Body>
           </Card>
-        </Col>
-      </Row>
-    </Container>
+          </Col>
+          </Row>
+         
+        
+      </Container>
     </div>
   );
 };
