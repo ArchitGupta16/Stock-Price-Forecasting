@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap'; // Assuming you are using react-bootstrap
 import { Link, useLocation } from 'react-router-dom';
+import "../styles/appTheme.css" 
 
 const NavBar = () => {
   const location = useLocation();
@@ -36,15 +37,15 @@ const NavBar = () => {
   const currentPage = location.pathname;
 
   return (
-    <Navbar sticky="fixed" className="bg-blue-500 p-2">
-      <Navbar.Brand as={Link} to="/" className="text-black text-xl font-bold">
-        <span className="h3">SPF Home</span>
+    <Navbar v sticky="fixed" className="open-sans theme" variant="dark" >
+      <Navbar.Brand as={Link} to="/" className="text-white text-xl font-bold">
+        <span className="h3" style={{marginLeft:"15%"}} >SPF Home</span>
       </Navbar.Brand>
-      <div className="ms-auto">
-        <Nav>
+      <div className="ms-auto" style={{marginRight:"1%"}}>
+        <Nav >
           {navItems[currentPage].map((item, index) => (
             <Nav.Item key={index}>
-              <Link to={item.to} className="nav-link text-xl text-black">
+              <Link to={item.to} className="nav-link font-sans text-xl text-white" >
                 {item.text}
               </Link>
             </Nav.Item>

@@ -143,13 +143,15 @@ const UserAuth = () => {
           <Col md={6}>
             <div className="d-flex justify-content-between mb-4">
               <Button
-                variant={showLogin ? 'primary' : 'light'}
+                variant={showLogin ? 'dark' : 'light'}
+                style={{ backgroundColor: '#280278',opacity:"93%" }}
                 onClick={handleToggle}
               >
                 Login
               </Button>
               <Button
                 variant={showLogin ? 'light' : 'success'}
+                style={{ backgroundColor: '#280278',opacity:"93%" }}
                 onClick={handleToggle}
               >
                 Register
@@ -240,3 +242,4 @@ const UserAuth = () => {
 };
 
 export default UserAuth;
+
