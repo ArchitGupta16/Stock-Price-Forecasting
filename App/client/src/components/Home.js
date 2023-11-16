@@ -19,10 +19,11 @@ const Home = () => {
         label: 'Open Stock Price',
         data: [],
         fill: false,
-        borderColor: 'border-indigo-500',
+        borderColor: 'rgba(123, 104, 238, 1)', // Adjusted border color for Apple (AAPL)
       },
     ],
   });
+  
   const [GooglchartData, GooglsetChartData] = useState({
     labels: [],
     datasets: [
@@ -30,11 +31,11 @@ const Home = () => {
         label: 'Open Stock Price',
         data: [],
         fill: false,
-        borderColor: 'border-green-500',
+        borderColor: 'rgba(75, 192, 192, 1)', // Adjusted border color for Google (GOOGL)
       },
     ],
   });
-
+  
   const [MSFTchartData, MSFTsetChartData] = useState({
     labels: [],
     datasets: [
@@ -42,11 +43,11 @@ const Home = () => {
         label: 'Open Stock Price',
         data: [],
         fill: false,
-        borderColor: 'border-purple-500',
+        borderColor: 'rgba(138, 43, 226, 1)', // Adjusted border color for Microsoft (MSFT)
       },
     ],
   });
-
+  
   const [AMZNchartData, AMZNsetChartData] = useState({
     labels: [],
     datasets: [
@@ -54,7 +55,7 @@ const Home = () => {
         label: 'Open Stock Price',
         data: [],
         fill: false,
-        borderColor: 'border-blue-500',
+        borderColor: 'rgba(0, 0, 255, 1)', // Adjusted border color for Amazon (AMZN)
       },
     ],
   });
@@ -75,7 +76,9 @@ const Home = () => {
             {
               label: 'Open Stock Price',
               data: openPrices,
-              fill: false,
+              fill: true,
+              fillOpacity: 0.3,
+              backgroundColor: getChartbackColor(symbol),
               borderColor: getChartColor(symbol),
             },
           ],
@@ -98,15 +101,30 @@ const Home = () => {
   const getChartColor = (symbol) => {
     switch (symbol) {
       case 'AAPL':
-        return 'border-indigo-500';
+        return 'rgba(123, 104, 238, 1)'; // Adjusted color for Apple (AAPL)
       case 'GOOGL':
-        return 'border-green-500';
+        return 'rgba(75, 192, 192, 1)'; // Adjusted color for Google (GOOGL)
       case 'MSFT':
-        return 'border-purple-500';
+        return 'rgba(138, 43, 226, 1)'; // Adjusted color for Microsoft (MSFT)
       case 'AMZN':
-        return 'border-blue-500';
+        return 'rgba(0, 0, 255, 1)'; // Adjusted color for Amazon (AMZN)
       default:
-        return 'border-gray-500';
+        return 'rgba(169, 169, 169, 1)'; // Default color (gray)
+    }
+  };
+
+  const getChartbackColor = (symbol) => {
+    switch (symbol) {
+      case 'AAPL':
+        return 'rgba(123, 104, 238, 0.3)'; // Adjusted color for Apple (AAPL)
+      case 'GOOGL':
+        return 'rgba(75, 192, 192, 0.3)'; // Adjusted color for Google (GOOGL)
+      case 'MSFT':
+        return 'rgba(138, 43, 226, 0.3)'; // Adjusted color for Microsoft (MSFT)
+      case 'AMZN':
+        return 'rgba(0, 0, 255, 0.3)'; // Adjusted color for Amazon (AMZN)
+      default:
+        return 'rgba(169, 169, 169, 0.3)'; // Default color (gray)
     }
   };
 
@@ -156,8 +174,8 @@ const Home = () => {
       <Container fluid>
         
         <Row>
-        <Col md={6} className="d-flex flex-column align-items-center justify-content-center">
-          <div className="shadow-lg p-4 mb-5 bg-[#300EFF] bg-opacity-75 rounded" style={{ marginLeft: "10px", padding: "20px", minHeight: "80vh", display: "flex", flexDirection: "column", justifyContent: "center", boxShadow: "0 0 10px rgba(48, 14, 255, 0.5)" }}>
+        <Col md={6} className="d-flex flex-column align-items-center justify-content-center mt-6">
+          <div className="shadow-lg p-4 bg-white bg-opacity-75 rounded" style={{ padding: "20px", minHeight: "80vh", boxShadow: "0 0 10px rgba(48, 14, 255, 0.5)" }}>
             <h4 className="text-xl font-semibold mb-4">Trending News</h4>
             <Carousel>
               {news.map((item, index) => (
@@ -197,11 +215,11 @@ const Home = () => {
 
 
           <Col md={6} className="d-flex flex-column align-items-center justify-content-center">
-            <Container>
+            <Container >
               <Row>
 
-                <Col md={6}>
-                  <Card className="mb-4 bg-[#300EFF] shadow-lg w-full">
+              <Col md={6} className="d-flex flex-wrap justify-content-center">
+                <Card className="mb-4 bg-white shadow-lg w-full">
                     <Card.Body>
                       <Card.Title className="text-lg font-semibold mb-2"></Card.Title>
                       <Card.Text>
@@ -215,7 +233,7 @@ const Home = () => {
                   </Card>
                 </Col>
 
-                <Col md={6}>
+                <Col md={6} className="d-flex flex-wrap justify-content-center">
                   <Card className="mb-4 bg-white shadow-lg w-full">
                     <Card.Body>
                       <Card.Title className="text-lg font-semibold mb-2"></Card.Title>
@@ -230,7 +248,7 @@ const Home = () => {
                   </Card>
                 </Col>
 
-                <Col md={6}>
+                <Col md={6} className="d-flex flex-wrap justify-content-center">
                   <Card className="mb-4 bg-white shadow-lg w-full">
                     <Card.Body>
                       <Card.Title className="text-lg font-semibold mb-2"></Card.Title>
@@ -245,8 +263,8 @@ const Home = () => {
                   </Card>
                 </Col>
 
-                <Col md={6}>
-                  <Card className="mb-4 bg-white shadow-lg w-full">
+                <Col md={6} className="d-flex flex-wrap justify-content-center">
+                  <Card className="mb-4 bg-white shadow-lg w-full" >
                     <Card.Body>
                       <Card.Title className="text-lg font-semibold mb-2"></Card.Title>
                       <Card.Text>

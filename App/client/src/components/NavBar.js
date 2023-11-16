@@ -2,6 +2,8 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap'; // Assuming you are using react-bootstrap
 import { Link, useLocation } from 'react-router-dom';
 import "../styles/appTheme.css" 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChartLine } from '@fortawesome/free-solid-svg-icons'; 
 
 const NavBar = () => {
   const location = useLocation();
@@ -37,15 +39,16 @@ const NavBar = () => {
   const currentPage = location.pathname;
 
   return (
-    <Navbar v sticky="fixed" className="open-sans theme" variant="dark" >
-      <Navbar.Brand as={Link} to="/" className="text-white text-xl font-bold">
-        <span className="h3" style={{marginLeft:"15%"}} >SPF Home</span>
+    <Navbar sticky="top" className="bg-purple-900">
+      <Navbar.Brand as={Link} to="/" className="flex items-center text-white text-xl font-bold ml-4">
+        <FontAwesomeIcon icon={faChartLine} className="text-white text-xl me-2" />
+        <span className="text-2xl">SPF Home</span>
       </Navbar.Brand>
-      <div className="ms-auto" style={{marginRight:"1%"}}>
-        <Nav >
+      <div className="ml-auto mr-6">
+        <Nav>
           {navItems[currentPage].map((item, index) => (
             <Nav.Item key={index}>
-              <Link to={item.to} className="nav-link font-sans text-xl text-white" >
+              <Link to={item.to} className="nav-link font-semibold text-lg text-white px-4">
                 {item.text}
               </Link>
             </Nav.Item>

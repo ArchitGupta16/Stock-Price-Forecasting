@@ -71,16 +71,14 @@ const StockPrice = () => {
   };
 
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <NavBar/>
-      <hr className="my-4" />
-      <Container className="flex justify-center items-center h-screen">
+      <Container className="py-12">
         <Row>
-          <Col style={{ marginTop: "2%" }}>{/* <News /> */}</Col>
-          <Col>
+        <Col md={6} className="mb-8">
             <Card className="bg-white shadow-lg ">
-              <CardBody className="flex justify-center items-center">
-                <h2 className="text-center text-2xl font-semibold ">
+            <Card.Body className="p-8">
+            <h2 className="text-center text-2xl font-semibold mb-6">
                   Check Stock Price
                 </h2>
                 <Form>
@@ -153,17 +151,17 @@ const StockPrice = () => {
                     </Nav>
                     <br />
                     <Button
-                      onClick={handleCheckPrice}
-                      className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded mx-2"
-                    >
-                      Check Price
-                    </Button>
-                    <Button
-                      onClick={handleStatTable}
-                      className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 ml-2 rounded"
-                    >
-                      Show Stats
-                    </Button>
+                    onClick={handleCheckPrice}
+                    className="bg-purple-900 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-full mx-2"
+                  >
+                    Check Price
+                  </Button>
+                  <Button
+                    onClick={handleStatTable}
+                    className="bg-purple-900 hover:bg-gray-500 text-white font-semibold py-2 px-6 ml-2 rounded-full"
+                  >
+                    Show Stats
+                  </Button>
                   </div>
                 </Form>
                 {loading ? (
@@ -171,7 +169,7 @@ const StockPrice = () => {
                 ) : (
                   <p className="text-center mt-3">Price: {price}</p>
                 )}
-              </CardBody>
+              </Card.Body>
             </Card>
           </Col>
         </Row>

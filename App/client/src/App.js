@@ -7,7 +7,7 @@ import Home from "./components/Home";
 import AboutUs from "./components/AboutUs";
 import UserAuth from "./components/Login";
 import Portfolio from "./components/Portfolio";
-
+import "./App.css"
 function App() {
   return (
     <BrowserRouter>

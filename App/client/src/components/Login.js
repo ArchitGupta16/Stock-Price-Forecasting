@@ -121,9 +121,10 @@ const UserAuth = () => {
       </Toast>
 
       <NavBar />
-      <Container className="bg-white p-4 border rounded-lg shadow-lg shadow-black" style={{marginTop:"10%"}}>
+      <div className="flex justify-center items-center h-screen">
+      <Container className="bg-white p-6 border rounded-lg shadow-lg " style={{ marginTop: "-10vh" }}>
         <Row>
-          <Col md={6} className="d-flex align-items-center">
+        <Col md={6} className="flex items-center">
             <Carousel interval={3000} className="slideshow">
               {slideshowImages.map((image, index) => (
                 <Carousel.Item key={index}>
@@ -141,21 +142,22 @@ const UserAuth = () => {
           
 
           <Col md={6}>
-            <div className="d-flex justify-content-between mb-4">
-              <Button
-                variant={showLogin ? 'dark' : 'light'}
-                style={{ backgroundColor: '#280278',opacity:"93%" }}
-                onClick={handleToggle}
-              >
-                Login
-              </Button>
-              <Button
-                variant={showLogin ? 'light' : 'success'}
-                style={{ backgroundColor: '#280278',opacity:"93%" }}
-                onClick={handleToggle}
-              >
-                Register
-              </Button>
+          <div className="flex justify-between mb-4">
+          <Button
+              variant={showLogin ? 'dark' : 'light'}
+              className={`text-white border bg-purple-900 ${showLogin ? 'bg-purple-900' : 'bg-black'}`}
+              onClick={handleToggle}
+            >
+              Login
+            </Button>
+            <Button
+              variant={showLogin ? 'light' : 'success'}
+              className={`text-white border bg-green-700 ${showLogin ? 'bg-black' : 'bg-green-700'}`}
+              onClick={handleToggle}
+            >
+              Register
+            </Button>
+
             </div>
             {showLogin ? (
               <div>
@@ -181,15 +183,22 @@ const UserAuth = () => {
                       />
                     </InputGroup>
                   </Form.Group>
-                  <div className="flex justify-center">
-                  <Button variant="primary" type="submit">
-                    Login
-                  </Button>
-                      <GoogleLogin
+                  <div className="flex flex-col items-center justify-center space-y-4">
+                    <Button variant="dark" type="submit" className="bg-purple-900 border border-purple-900 text-white">
+                      Login
+                    </Button>
+                    <div className="flex items-center">
+                      <hr className="w-32 border-gray-900" />
+                      <span className="mx-4 text-gray-600 font-bold">OR</span>
+                      <hr className="w-32 border-gray-900" />
+                    </div>
+                    <GoogleLogin
                       onSuccess={credentialResponse}
                       onError={credentialError}
+                      className="border border-gray-300 p-2"
                     />
-                    </div>
+                  </div>
+
                   </Form>
                
               </div>
@@ -227,7 +236,7 @@ const UserAuth = () => {
                       />
                     </InputGroup>
                   </Form.Group>
-                  <Button variant="success" type="submit">
+                  <Button variant="success" type="submit" className="bg-green-700 border border-green-700 text-white">
                     Register
                   </Button>
                 </Form>
@@ -237,6 +246,7 @@ const UserAuth = () => {
           </Col>
         </Row>
       </Container>
+      </div>
     </div>
   );
 };
