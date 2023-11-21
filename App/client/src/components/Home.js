@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import { Line } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import { CategoryScale } from 'chart.js';
+import { useNavigate } from "react-router-dom";
 
 Chart.register(CategoryScale);
 
@@ -12,6 +13,7 @@ const Home = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const symbols = ["AAPL", "GOOGL", "MSFT", "AMZN"];
+  const navigate = useNavigate(); // Initialize history
   const [AAPLchartData, AAPLsetChartData] = useState({
     labels: [],
     datasets: [
@@ -161,6 +163,9 @@ const Home = () => {
       setLoading(false);
     }
   };
+  const handleStatTable = (symbol) => {
+    navigate(`/stock-chart/${symbol}`);
+  };
 
   useEffect(() => {
     fetchData();
@@ -228,7 +233,7 @@ const Home = () => {
                           <Line data={MSFTchartData} />
                         </Col>
                       </Card.Text>
-                      <Button variant="dark" style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
+                      <Button variant="dark" onClick={() => handleStatTable("MSFT")} style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -243,7 +248,7 @@ const Home = () => {
                           <Line data={AAPLchartData} />
                         </Col>
                       </Card.Text>
-                      <Button variant="dark" style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
+                      <Button variant="dark" onClick={() => handleStatTable("AAPL")} style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -258,7 +263,7 @@ const Home = () => {
                           <Line data={GooglchartData} />
                         </Col>
                       </Card.Text>
-                      <Button variant="dark" style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
+                      <Button variant="dark" onClick={() => handleStatTable("GOOGL")} style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
                     </Card.Body>
                   </Card>
                 </Col>
@@ -273,7 +278,7 @@ const Home = () => {
                           <Line data={AMZNchartData} />
                         </Col>
                       </Card.Text>
-                      <Button variant="dark" style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
+                      <Button variant="dark" onClick={() => handleStatTable("AMZN")} style={{ backgroundColor: '#280278',opacity:"93%" }} className="mt-2">Details</Button>
                     </Card.Body>
                   </Card>
                 </Col>

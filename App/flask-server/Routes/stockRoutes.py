@@ -25,3 +25,16 @@ def get_news_for_symbol():
         return jsonify({"news": news})
     except Exception as e:
         return jsonify({"error": str(e)})
+    
+@api_blueprint.route("/predict", methods=["POST"])
+def get_prediction():
+    symbol = request.json.get("symbol", "AAPL")
+    model = request.json.get("model", "ARIMA")
+    print(model,symbol)
+    try:
+        stock_info = yf.Ticker(symbol)
+        print(stock_info)
+        prediction = 200
+        return jsonify({"prediction": prediction})
+    except Exception as e:
+        return jsonify({"error": str(e)})

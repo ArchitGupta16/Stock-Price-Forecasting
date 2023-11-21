@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Form, Button, Container, Row, Col, Card, CardBody, Nav} from "react-bootstrap";
+import { Form, Button, Container, Row, Col, Card, Spinner, Nav} from "react-bootstrap";
 import { useHistory, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 
@@ -9,34 +9,45 @@ const StockPrice = () => {
   const [loading, setLoading] = useState(true);
   const [symbol, setSymbol] = useState("AAPL"); // Default symbol
   const [priceType, setPriceType] = useState("1. open");
-  const [activeNavItem, setActiveNavItem] = useState("0"); // Track active item
-  const [activeNav, setActiveNav] = useState("Daily"); // Track active item
-
+  const [activeNavItem, setActiveNavItem] = useState("0");
+  const [activeNav, setActiveNav] = useState("Daily");
+  const [selectedModel, setSelectedModel] = useState(""); 
+  const [stockSymbol, setStockSymbol] = useState(""); 
+  const [predictSymbol, setpredictSymbol] = useState(""); 
+  const [value, setValue] = useState(""); 
+  const [newLoading, setNewLoading] = useState(true); 
   const apiKey = "YOUR_ALPHA_VANTAGE_API_KEY";
   const navigate = useNavigate(); // Initialize history
 
   const priceTypes = ["1. open", "2. high", "3. low", "4. close", "5. volume"];
 
-  const [symbols, setSymbols] = useState([]);
+  const [symbols, setSymbols] = useState([
+    "AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "FB", "NFLX", "M&M"]);
+  const [predictedSymbol, setpredictedSymbol] = useState([
+    "HCLTECH", "CIPLA", "BPCL", "GAIL", "RELIANCE", "IOC", "NTPC"]);
 
-  useEffect(() => {
-    const hardcodedSymbols = [
-      "AAPL",
-      "GOOGL",
-      "MSFT",
-      "TSLA",
-      "AMZN",
-      "FB",
-      "NFLX",
-      "M&M",
-    ];
-    setSymbols(hardcodedSymbols);
-  }, []);
+  
 
   const handleStatTable = () => {
     navigate(`/stock-chart/${symbol}`);
   };
 
+  const handlePredict = () => {
+    console.log(predictSymbol);
+    console.log(selectedModel);
+    // send requtes to fetch prediction of price
+    axios.post('http://localhost:5000/stock/predict', { symbol: predictSymbol, model: selectedModel })
+      .then((response) => {
+        console.log(response);
+        setValue(response.data.prediction);
+        setNewLoading(false);
+        console.log(value);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  
   const handleNavItemClick = (eventKey) => {
     eventKey.preventDefault();
     if (eventKey.target.id === "a") {
@@ -74,6 +85,60 @@ const StockPrice = () => {
     <div className="bg-gray-100 min-h-screen">
       <NavBar/>
       <Container className="py-12">
+      <Row>
+          <Col md={6} className="mb-8">
+            <Card className="bg-white shadow-lg">
+              <Card.Body className="p-8">
+                <Form.Group>
+                  <Form.Label className="font-semibold">Select Model</Form.Label>
+                  <Form.Select
+                    value={selectedModel}
+                    onChange={(e) => setSelectedModel(e.target.value)}
+                    className="w-full p-2 border rounded"
+                  >
+                    <option value="">Select Model</option>
+                    <option value="ARIMA">ARIMA</option>
+                    <option value="RandomForest">Random Forest</option>
+                    <option value="RandomForest">Decision Tree</option>
+                    <option value="LSTM">LSTM</option>
+                  </Form.Select>
+                </Form.Group>
+                <br/>
+                <Form.Group>
+                  <Form.Label className="font-semibold">Stock Symbol</Form.Label>
+                  <Form.Control
+                    as="select"
+                    value={predictSymbol}
+                    onChange={(e) => setpredictSymbol(e.target.value)}
+                    className="w-full p-2 border rounded "
+                    placeholder="Enter Stock Symbol"
+                  >
+                   {predictedSymbol.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                  </Form.Control>
+                </Form.Group>
+                <div className="text-center">
+                  <br />
+                  <Button
+                    onClick={handlePredict}
+                    className="bg-purple-900 border-purple-900 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-full mx-2"
+                  >
+                    Predict
+                  </Button>
+                </div>
+                {newLoading ? (
+                  <p className="text-center mt-3 "></p>
+                ) : (
+                  <p className="text-center mt-3 font-semibold">Predicted Price : Rs {value}</p>
+                )}
+              </Card.Body>
+            </Card>
+          </Col>
+          {/* Other components or sections */}
+        </Row>
         <Row>
         <Col md={6} className="mb-8">
             <Card className="bg-white shadow-lg ">
@@ -83,7 +148,7 @@ const StockPrice = () => {
                 </h2>
                 <Form>
                   <Form.Group>
-                    <Form.Label>Symbol</Form.Label>
+                    <Form.Label className="font-semibold">Symbol</Form.Label>
                     <Form.Control
                       as="select"
                       value={symbol}
@@ -97,8 +162,9 @@ const StockPrice = () => {
                       ))}
                     </Form.Control>
                   </Form.Group>
+                  <br/>
                   <Form.Group>
-                    <Form.Label>Price Type</Form.Label>
+                    <Form.Label className="font-semibold">Price Type</Form.Label>
                     <Form.Control
                       as="select"
                       value={priceType}
@@ -152,22 +218,22 @@ const StockPrice = () => {
                     <br />
                     <Button
                     onClick={handleCheckPrice}
-                    className="bg-purple-900 hover:bg-gray-500 text-white font-semibold py-2 px-6 rounded-full mx-2"
+                    className="bg-purple-900 border-purple-900 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-full mx-2"
                   >
                     Check Price
                   </Button>
                   <Button
                     onClick={handleStatTable}
-                    className="bg-purple-900 hover:bg-gray-500 text-white font-semibold py-2 px-6 ml-2 rounded-full"
+                    className="bg-purple-900 border-purple-900 hover:bg-purple-700 text-white font-semibold py-2 px-6 ml-2 rounded-full"
                   >
                     Show Stats
                   </Button>
                   </div>
                 </Form>
                 {loading ? (
-                  <p className="text-center mt-3">Loading...</p>
+                  <p className="text-center mt-3"></p>
                 ) : (
-                  <p className="text-center mt-3">Price: {price}</p>
+                  <p className="text-center mt-3 font-semibold">Price: {price}</p>
                 )}
               </Card.Body>
             </Card>

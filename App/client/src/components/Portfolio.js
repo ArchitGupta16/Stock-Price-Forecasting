@@ -67,42 +67,42 @@ const Portfolio = () => {
   return (
     <div>
       <NavBar />
-      <Container className="mt-5 h-screen w-screen" >
+      <Container className="mt-5 h-screen w-screen">
         <Row md={12}>
-          <Col md={9}>
-            <h1 className="mb-5 ">Portfolio</h1>
+          <Col md={8}>
+            <h1 className="text-4xl font-bold mb-5">My Portfolio</h1>
           </Col>
-          <Col md={3} className='items-end' >
-            <Card className="mb-5 bg-white ">
+          <Col md={4} className="flex items-end">
+            <Card className="mb-5 bg-white">
               <Card.Body>
                 <Card.Text>
-                  <p className="text-center text-x1 text-bold font-semibold">{emailId}</p>
-                 
+                  <p className="text-center text-xl font-bold">{emailId}</p>
                 </Card.Text>
               </Card.Body>
             </Card>
           </Col>
-          
+
           <Col md={8}>
-          <Row>
+            <Row>
               {portfolioData.length === 0 ? (
                 <p>No stocks available</p>
               ) : (
                 portfolioData.map((stock) => (
-                  <Col md={4} key={stock.id}>
+                  <Col md={6} key={stock.id}>
                     <Card className="mb-4 bg-white shadow-lg">
                       <Card.Body>
                         <Card.Title>{stock.symbol}</Card.Title>
                         <Card.Text>
-                          <p className="text-bold">Shares: {stock.volume}</p>
-                          <p className="text-bold">Purchase Price: ${stock.price}</p>
-                          <p className="text-bold">Current Price: ${stock.current_val}</p>
-                          <p className="text-bold">Current Value: ${(stock.volume * stock.current_val)}</p>
+                          <p className="font-bold">Shares: {stock.volume}</p>
+                          <p className="font-bold">Purchase Price: ₹{stock.price}</p>
+                          <p className="font-bold">Current Price: ₹{stock.current_val}</p>
+                          <p className="font-bold">Current Value: ₹{(stock.volume * stock.current_val)}</p>
                         </Card.Text>
                         <Button
-                          variant="danger"
+                          variant="dark"
                           onClick={() => deleteStock(stock.symbol)}
                           className="btn-sm"
+                          style={{ backgroundColor: '#280278' }}
                         >
                           Delete
                         </Button>
@@ -115,33 +115,34 @@ const Portfolio = () => {
           </Col>
 
           <Col md={4}>
-          <Card>
-            <Card.Body className='bg-white shadow-lg '>
-              <Card.Title className="mb-4">Portfolio Summary</Card.Title>
+          <Card className=" bg-white shadow-lg">
+            <Card.Body className="p-5">
+              <Card.Title className="mb-4 text-2xl font-semibold">Portfolio Summary</Card.Title>
               <div className="text-center">
-                <p className="font-weight-bold">Total Value</p>
-                <h3>${totalValue.toFixed(2)}</h3>
+                <p className="font-semibold text-lg">Total Value</p>
+                <h3 className="text-3xl">₹ {totalValue.toFixed(2)}</h3>
               </div>
-              <hr />
+              <hr className="my-3" />
               <div className="text-center">
-                <p className="font-weight-bold">Total Gain/Loss</p>
-                <h3>${gainLoss.toFixed(2)}</h3>
+                <p className="font-semibold text-lg">Total Gain / Loss</p>
+                <h3 className="text-3xl">₹ {gainLoss.toFixed(2)}</h3>
               </div>
             </Card.Body>
           </Card>
-          <Card className="mt-4 bg-white shadow-lg ">
-            <Card.Body>
-              <Card.Title className="mb-4">Add New Stock</Card.Title>
-              <Form>
-                <Form.Group controlId="symbol">
-                  <Form.Label>Stock Symbol</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Symbol"
-                    value={newStock.symbol}
-                    onChange={(e) => setNewStock({ ...newStock, symbol: e.target.value })}
-                  />
-                </Form.Group>
+
+            <Card className="mt-4 bg-white shadow-lg font-semibold">
+              <Card.Body>
+                <Card.Title className="mb-4">Add New Stock</Card.Title>
+                <Form>
+                  <Form.Group controlId="symbol">
+                    <Form.Label>Stock Symbol</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Symbol"
+                      value={newStock.symbol}
+                      onChange={(e) => setNewStock({ ...newStock, symbol: e.target.value })}
+                    />
+                  </Form.Group>
                 <Form.Group controlId="shares">
                   <Form.Label>Shares</Form.Label>
                   <Form.Control
@@ -170,9 +171,13 @@ const Portfolio = () => {
                   />
                 </Form.Group>
                 <br />
-                <Button variant="primary" onClick={addStock}>
-                  Add Stock
-                </Button>
+                <Button
+                    variant="dark"
+                    onClick={addStock}
+                    style={{ backgroundColor: '#280278' }}
+                  >
+                    Add Stock
+                  </Button>
               </Form>
             </Card.Body>
           </Card>
