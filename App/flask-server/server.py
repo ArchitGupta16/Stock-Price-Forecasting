@@ -13,4 +13,4 @@ app.register_blueprint(login.user_blueprint, url_prefix="/user")
 app.register_blueprint(prf.prf_blueprint, url_prefix="/prf")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
