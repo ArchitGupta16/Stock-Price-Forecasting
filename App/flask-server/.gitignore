@@ -1,3 +1,6 @@
 /venv
 /__pycache__
-/Routes/__pycache__
+src/main/__pycache__
+src/main/python/__pycache__
+src/unittest/python/__pycache__
+/target

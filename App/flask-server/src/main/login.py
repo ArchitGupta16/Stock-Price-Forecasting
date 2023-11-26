@@ -1,6 +1,7 @@
-import Routes.db as db
+import src.main.db as db
 from flask import request, jsonify, Blueprint
 from flask_bcrypt import Bcrypt
+import sys
 
 user_blueprint = Blueprint("user", __name__)
 bcrypt = Bcrypt()
@@ -52,7 +53,6 @@ def register():
     name = data['name']
     email = data['email']
     password = data['password']
-
     # Check if the user already exists
     existing_user = user_collection.find_one({'email': email})
 
@@ -64,5 +64,4 @@ def register():
     # Create a User object and insert it into the database
     new_user = User(name, email, hashed_password)
     user_collection.insert_one(new_user.__dict__)
-
     return jsonify({"message": "User registered successfully"})

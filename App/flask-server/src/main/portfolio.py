@@ -1,6 +1,6 @@
-import Routes.db as db
+import src.main.db as db
 from flask import request, jsonify, Blueprint
-import Routes.login as users
+import src.main.login as users
 
 prf_blueprint = Blueprint("portfolio", __name__)
 prf_collection = db.database['portfolio'] 

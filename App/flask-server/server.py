@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_cors import CORS
-import Routes.stockRoutes as sr
-import Routes.login as login
-import Routes.portfolio as prf
+import src.main.stockRoutes as sr
+import src.main.login as login
+import src.main.portfolio as prf
 
 app = Flask(__name__)
 
