@@ -1,4 +1,4 @@
 import sys
 
 def helloworld(out):
-    out.write("Error to world of Python\n")
+    out.write("Hello to world of Python\n")
