@@ -84,9 +84,58 @@ const StockPrice = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <NavBar/>
-      <Container className="py-12">
+      {/* <Container className="py-10"> */}
+      <div className="mx-auto">
       <Row>
-          <Col md={6} className="mb-8">
+        <Col md={7} className="mb-8 ">
+          <Card className="bg-white shadow-lg rounded-lg min-h-full">
+            <Card.Body className="p-10 ">
+            <div className="flex justify-center mb-8">
+      <div className="w-30 h-30  overflow-hidden border-4 border-purple-900">
+        <img
+          src="https://predictivehacks.com/wp-content/uploads/2021/01/image-11.png"
+          alt="Stock Prediction Image"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    </div>
+
+    {/* Main content */}
+    <h2 className="text-4xl font-semibold mb-6 text-purple-900 text-center">
+      Welcome to Stock Price Prediction
+    </h2>
+    <ul className="text-xl mb-6">
+      <li className="mb-4 flex items-start">
+        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
+          &bull;
+        </span>
+        Select a model from the dropdown list provided.
+      </li>
+      <li className="mb-4 flex items-start">
+        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
+          &bull;
+        </span>
+        Next, choose a stock symbol you want to predict the price for.
+      </li>
+      <li className="mb-4 flex items-start">
+        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
+          &bull;
+        </span>
+        Click the "Predict" button to fetch the predicted price.
+      </li>
+      <li className="mb-4 flex items-start">
+        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
+          &bull;
+        </span>
+        The predicted price will be displayed below the button.
+      </li>
+    </ul>
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col>
+          <Col className="mb-8">
             <Card className="bg-white shadow-lg">
               <Card.Body className="p-8">
                 <Form.Group>
@@ -137,10 +186,11 @@ const StockPrice = () => {
               </Card.Body>
             </Card>
           </Col>
+          
           {/* Other components or sections */}
-        </Row>
-        <Row>
-        <Col md={6} className="mb-8">
+        {/* </Row>
+        <Row> */}
+        <Col  className="mb-8">
             <Card className="bg-white shadow-lg ">
             <Card.Body className="p-8">
             <h2 className="text-center text-2xl font-semibold mb-6">
@@ -238,8 +288,10 @@ const StockPrice = () => {
               </Card.Body>
             </Card>
           </Col>
+          </Col>
         </Row>
-      </Container>
+      {/* </Container> */}
+      </div>
     </div>
   );
 };

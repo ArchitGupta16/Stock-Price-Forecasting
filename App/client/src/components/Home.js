@@ -12,7 +12,7 @@ Chart.register(CategoryScale);
 const Home = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const symbols = ["AAPL", "GOOGL", "MSFT", "AMZN"];
+  const symbols = ["AAPL", "GOOGL", "MSFT", "TSLA"];
   const navigate = useNavigate(); // Initialize history
   const [AAPLchartData, AAPLsetChartData] = useState({
     labels: [],
@@ -113,7 +113,7 @@ const Home = () => {
         return "rgba(75, 192, 192, 1)"; // Adjusted color for Google (GOOGL)
       case "MSFT":
         return "rgba(138, 43, 226, 1)"; // Adjusted color for Microsoft (MSFT)
-      case "AMZN":
+      case "TSLA":
         return "rgba(0, 0, 255, 1)"; // Adjusted color for Amazon (AMZN)
       default:
         return "rgba(169, 169, 169, 1)"; // Default color (gray)
@@ -128,7 +128,7 @@ const Home = () => {
         return "rgba(75, 192, 192, 0.3)"; // Adjusted color for Google (GOOGL)
       case "MSFT":
         return "rgba(138, 43, 226, 0.3)"; // Adjusted color for Microsoft (MSFT)
-      case "AMZN":
+      case "TSLA":
         return "rgba(0, 0, 255, 0.3)"; // Adjusted color for Amazon (AMZN)
       default:
         return "rgba(169, 169, 169, 0.3)"; // Default color (gray)
@@ -146,7 +146,7 @@ const Home = () => {
       case "MSFT":
         MSFTsetChartData(chartData);
         break;
-      case "AMZN":
+      case "TSLA":
         AMZNsetChartData(chartData);
         break;
       default:
@@ -321,13 +321,13 @@ const Home = () => {
                       <Card.Title className="text-lg font-semibold mb-2"></Card.Title>
                       <Card.Text>
                         <Col>
-                          <h2 className="text-xl font-semibold mb-4">Amazon</h2>
+                          <h2 className="text-xl font-semibold mb-4">Tesla</h2>
                           <Line data={AMZNchartData} />
                         </Col>
                       </Card.Text>
                       <Button
                         variant="dark"
-                        onClick={() => handleStatTable("AMZN")}
+                        onClick={() => handleStatTable("TSLA")}
                         style={{ backgroundColor: "#280278", opacity: "93%" }}
                         className="mt-2"
                       >
