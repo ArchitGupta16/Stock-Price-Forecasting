@@ -1,0 +1,7 @@
+/venv
+/__pycache__
+src/main/__pycache__
+src/main/python/__pycache__
+src/unittest/python/__pycache__
+/target
+/Models/pickle

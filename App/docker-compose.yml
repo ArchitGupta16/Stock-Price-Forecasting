@@ -1,0 +1,38 @@
+version: "3"
+services:
+  flask-app:
+    build:
+      context: ./flask-server
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb # Ensure that the 'mongo' service is started before 'flask-app'
+
+  react-app:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    depends_on:
+      - flask-app # Ensure that 'flask-app' is started before 'react-app'
+
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongodb # Ensure that the 'mongo' service is started before 'mongo-express'
