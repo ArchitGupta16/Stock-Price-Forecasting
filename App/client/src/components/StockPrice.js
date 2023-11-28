@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Form, Button, Container, Row, Col, Card, Spinner, Nav} from "react-bootstrap";
+import { Form, Button, Image, Row, Col, Card,  Nav} from "react-bootstrap";
 import { useHistory, useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
 
@@ -22,9 +22,9 @@ const StockPrice = () => {
   const priceTypes = ["1. open", "2. high", "3. low", "4. close", "5. volume"];
 
   const [symbols, setSymbols] = useState([
-    "AAPL", "GOOGL", "MSFT", "TSLA", "AMZN", "FB", "NFLX", "M&M"]);
+    "AAPL", "GOOGL", "MSFT", "TSLA", "KOTAK", "FB", "NFLX", "M&M","HDFC"]);
   const [predictedSymbol, setpredictedSymbol] = useState([
-    "HCLTECH", "CIPLA", "BPCL", "GAIL", "RELIANCE", "IOC", "NTPC"]);
+    "HCLTECH", "KOTAK", "BPCL", "GAIL", "RELIANCE", "IOC","HDFC"]);
 
   
 
@@ -35,11 +35,10 @@ const StockPrice = () => {
   const handlePredict = () => {
     console.log(predictSymbol);
     console.log(selectedModel);
-    // send requtes to fetch prediction of price
     axios.post('http://localhost:5000/stock/predict', { symbol: predictSymbol, model: selectedModel })
       .then((response) => {
         console.log(response);
-        setValue(response.data.prediction);
+        setValue(response.data.prediction[0].toFixed(2));
         setNewLoading(false);
         console.log(value);
       })
@@ -82,60 +81,51 @@ const StockPrice = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div>
       <NavBar/>
-      {/* <Container className="py-10"> */}
-      <div className="mx-auto">
-      <Row>
-        <Col md={7} className="mb-8 ">
-          <Card className="bg-white shadow-lg rounded-lg min-h-full">
-            <Card.Body className="p-10 ">
-            <div className="flex justify-center mb-8">
-      <div className="w-30 h-30  overflow-hidden border-4 border-purple-900">
-        <img
-          src="https://predictivehacks.com/wp-content/uploads/2021/01/image-11.png"
-          alt="Stock Prediction Image"
-          className="w-full h-full object-cover"
-        />
-      </div>
-    </div>
+      <div className="mt-4 ">
+        <Row>
+          <Col md={6} className="mb-8 ml-20">
+            <Card className="bg-white shadow-lg rounded-lg ">
+              <Card.Body className="p-10 ">
+              <h2 className="text-4xl font-semibold mb-6 text-purple-900 text-center">
+                Welcome to Stock Price Prediction
+              </h2>
+              <div className="d-flex justify-content-center align-items-center w-100 h-100">
+              <Image
+                src="https://predictivehacks.com/wp-content/uploads/2021/01/image-11.png"
+                alt="Stock Prediction Image"
+                className="object-cover border-3 border-purple-900"
+                style={{ maxHeight: "80%", maxWidth: "75%" }}
+              />
+        </div>
+            <br/>
+            <ul className="text-xl mb-6">
+              <li className="mb-4 flex items-start">
+                <span className="mr-3 text-xl text-purple-900 align-middle inline-block w-6">&#8226;</span>
+                Select a model from the dropdown list provided.
+              </li>
+              <li className="mb-4 flex items-start">
+                <span className="mr-3 text-xl text-purple-900 align-middle inline-block w-6">&#8226;</span>
+                Next, choose a stock symbol you want to predict the price for.
+              </li>
+              <li className="mb-4 flex items-start">
+                <span className="mr-3 text-xl text-purple-900 align-middle inline-block w-6">&#8226;</span>
+                Click the "Predict" button to fetch the predicted price.
+              </li>
+              <li className="mb-4 flex items-start">
+                <span className="mr-3 text-xl text-purple-900 align-middle inline-block w-6">&#8226;</span>
+                The predicted price will be displayed below the button.
+              </li>
+            </ul>
 
-    {/* Main content */}
-    <h2 className="text-4xl font-semibold mb-6 text-purple-900 text-center">
-      Welcome to Stock Price Prediction
-    </h2>
-    <ul className="text-xl mb-6">
-      <li className="mb-4 flex items-start">
-        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
-          &bull;
-        </span>
-        Select a model from the dropdown list provided.
-      </li>
-      <li className="mb-4 flex items-start">
-        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
-          &bull;
-        </span>
-        Next, choose a stock symbol you want to predict the price for.
-      </li>
-      <li className="mb-4 flex items-start">
-        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
-          &bull;
-        </span>
-        Click the "Predict" button to fetch the predicted price.
-      </li>
-      <li className="mb-4 flex items-start">
-        <span className="inline-block w-6 h-6 rounded-full bg-purple-900 mr-3 flex items-center justify-center text-white">
-          &bull;
-        </span>
-        The predicted price will be displayed below the button.
-      </li>
-    </ul>
+
             </Card.Body>
           </Card>
         </Col>
 
-        <Col>
-          <Col className="mb-8">
+        <Col md={5}>
+          <Col className="mb-8 mr-3">
             <Card className="bg-white shadow-lg">
               <Card.Body className="p-8">
                 <Form.Group>
@@ -187,10 +177,7 @@ const StockPrice = () => {
             </Card>
           </Col>
           
-          {/* Other components or sections */}
-        {/* </Row>
-        <Row> */}
-        <Col  className="mb-8">
+        <Col  className="mb-4 mr-3">
             <Card className="bg-white shadow-lg ">
             <Card.Body className="p-8">
             <h2 className="text-center text-2xl font-semibold mb-6">
@@ -290,10 +277,10 @@ const StockPrice = () => {
           </Col>
           </Col>
         </Row>
-      {/* </Container> */}
       </div>
     </div>
   );
 };
 
 export default StockPrice;
+

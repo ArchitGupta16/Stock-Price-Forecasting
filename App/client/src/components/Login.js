@@ -1,19 +1,10 @@
 import React, { useState } from "react";
-import {
-  Toast,
-  Form,
-  Button,
-  Container,
-  Row,
-  Col,
-  Carousel,
-  InputGroup,
-  FormControl,
-} from "react-bootstrap";
+import {Form, Button, Container, Row, Col, Carousel, InputGroup, FormControl} from "react-bootstrap";
 import axios from "axios";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
+import { useAlert } from "react-alert"; 
 
 const UserAuth = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
@@ -25,8 +16,7 @@ const UserAuth = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [name, setName] = useState("");
   const navigate = useNavigate();
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
+  const alert = useAlert(); 
 
   const handleLoginChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -50,11 +40,25 @@ const UserAuth = () => {
       console.log("Login ", response.data);
       // You can handle user login success here.
       // setName(response.data.name);
+      if (response.data.message === "Incorrect password") {
+        console.log("Invalid Password");
+        alert.show("Incorrect password. Please check!",{type: 'error'})
+        // alert.show("Invalid Credentials. Please try again!" ,{type: 'error'})
+        return;
+      }
+      if (response.data.message === "User not found") {
+        console.log("User not found");
+        alert.show("User not found. Please register first!",{type: 'error'})
+        // alert.show("Invalid Credentials. Please try again!" ,{type: 'error'})
+        return;
+      }
+
       localStorage.setItem("userName", loginData.email);
       // Redirect to the portfolio page
       navigate("/portfolio");
     } catch (error) {
       console.error("Login failed:", error);
+      alert.show("Invalid Credentials. Please try again!",{type: 'error'})
     }
   };
 
@@ -66,9 +70,11 @@ const UserAuth = () => {
         registerData
       );
       console.log("Registration successful:", response.data);
+      alert.show("Registration Successful. Please Login!")
       // You can handle user registration success here.
     } catch (error) {
       console.error("Registration failed:", error);
+      alert.show("Registration failed. Please try again!")
     }
   };
 
@@ -105,47 +111,30 @@ const UserAuth = () => {
       .post("http://127.0.0.1:5000/user/glogin", { email: result.email })
       .then((response) => {
         console.log(response.data);
-        if (response.data.message == "User not found") {
-          setShowToast(true);
-          setToastMessage("Please Register First");
-          return;
-        }
+        
         localStorage.setItem("userName", result.email);
         navigate("/portfolio");
       })
       .catch((error) => {
         console.log(error);
+        alert.show("Please register first!")
       });
   };
 
   const credentialError = (error) => {
-    setShowToast(true);
+    alert.show("Something went wrong. Please try again!")
     console.error(error);
   };
 
   const slideshowImages = [
-    "https://media.licdn.com/dms/image/C5612AQHFS24TyOdTyA/article-cover_image-shrink_600_2000/0/1631788301339?e=2147483647&v=beta&t=oze0QUlnGVBZs59UrBYWBhgEId3IcgFgywlIB1t-B7s",
-    "https://daxg39y63pxwu.cloudfront.net/images/blog/stock-price-prediction-using-machine-learning-project/Stock_Price_Prediction.webp",
+    "https://assets.nst.com.my/images/articles/stock-prices-bursa_1669292714.jpg",
+    "https://akm-img-a-in.tosshub.com/businesstoday/images/story/202309/qdnb38ow6s3arrhby4ttke-415-80_5_4-sixteen_nine.jpg?size=948:533",
     "https://miro.medium.com/v2/resize:fit:1400/0*o-qaF_Oovg26BoCd",
+    "https://akm-img-a-in.tosshub.com/businesstoday/images/story/202311/forex-vs-stocks_3_0-sixteen_nine.jpg?size=948:533"
   ];
 
   return (
     <div>
-      <Toast
-        onClose={() => setShowToast(false)}
-        show={showToast}
-        delay={5000}
-        autohide
-        className="position-absolute top-0"
-      >
-        <Toast.Header>
-          <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-          <strong className="me-auto">Error Login</strong>
-          <small>Just Now</small>
-        </Toast.Header>
-        <Toast.Body>Please Register First</Toast.Body>
-      </Toast>
-
       <NavBar />
       <div className="flex justify-center items-center h-screen">
         <Container
@@ -199,6 +188,7 @@ const UserAuth = () => {
                         <FormControl
                           type="email"
                           name="email"
+                          required
                           onChange={handleLoginChange}
                         />
                       </InputGroup>
@@ -208,6 +198,7 @@ const UserAuth = () => {
                       <InputGroup>
                         <FormControl
                           type="password"
+                          required
                           name="password"
                           onChange={handleLoginChange}
                         />
@@ -244,6 +235,7 @@ const UserAuth = () => {
                         <FormControl
                           type="name"
                           name="name"
+                          required
                           onChange={handleRegisterChange}
                         />
                       </InputGroup>
@@ -254,6 +246,7 @@ const UserAuth = () => {
                         <FormControl
                           type="email"
                           name="email"
+                          required
                           onChange={handleRegisterChange}
                         />
                       </InputGroup>
@@ -264,6 +257,7 @@ const UserAuth = () => {
                         <FormControl
                           type="password"
                           name="password"
+                          required
                           onChange={handleRegisterChange}
                         />
                       </InputGroup>

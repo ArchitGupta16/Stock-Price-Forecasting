@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Card, Row, Col, Container, Button, Carousel } from "react-bootstrap";
+import { Card, Row, Col, Container, Button, Carousel, Spinner } from "react-bootstrap";
 import NavBar from "./NavBar";
 import { Line } from "react-chartjs-2";
 import Chart from "chart.js/auto";
@@ -13,7 +13,8 @@ const Home = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const symbols = ["AAPL", "GOOGL", "MSFT", "TSLA"];
-  const navigate = useNavigate(); // Initialize history
+  const navigate = useNavigate(); 
+  const [loadingNews, setLoadingNews] = useState(true);
   const [AAPLchartData, AAPLsetChartData] = useState({
     labels: [],
     datasets: [
@@ -163,9 +164,15 @@ const Home = () => {
       setNews(newsData);
       console.log(newsData);
       setLoading(false);
+      // undefined newsData makes loading true
+      if (newsData !== undefined){
+        setLoadingNews(false)
+      }
+      // setLoadingNews(false); 
     } catch (error) {
       console.error(error);
       setLoading(false);
+      setLoadingNews(true); 
     }
   };
   const handleStatTable = (symbol) => {
@@ -196,6 +203,13 @@ const Home = () => {
               }}
             >
               <h4 className="text-xl font-semibold mb-4">Trending News</h4>
+              {loadingNews ? (
+              <div className="d-flex justify-content-center mt-5">
+                <Spinner animation="border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              </div>
+            ) : (
               <Carousel>
                 {news.map((item, index) => (
                   <Carousel.Item key={index} className="news-item mb-4">
@@ -238,6 +252,7 @@ const Home = () => {
                   </Carousel.Item>
                 ))}
               </Carousel>
+            )}
             </div>
           </Col>
 

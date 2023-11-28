@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Table, Card} from 'react-bootstrap';
+import { Spinner, Row, Col, Table, Card} from 'react-bootstrap';
 import { Navbar, Nav } from 'react-bootstrap'; // Assuming you are using react-bootstrap
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -67,7 +67,7 @@ const StockTable = () => {
         console.log(data);
       } catch (error) {
         console.error(error);
-        setLoading(false);
+        setLoading(true);
       }
     };
 
@@ -75,7 +75,14 @@ const StockTable = () => {
   }, [symbol]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    // Display a Spinner while news data is loading
+    return (
+      <div className="d-flex justify-content-center mt-5">
+        <Spinner animation="border" role="status">
+          <span className="sr-only">Loading...</span>
+        </Spinner>
+      </div>
+    );
   }
 
   const headers = ['Date', 'Open', 'Close', 'Low', 'High', 'Volume'];
