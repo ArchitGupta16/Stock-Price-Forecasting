@@ -34,7 +34,7 @@ def get_news_for_symbol():
 def get_prediction():
     symbol = request.json.get("symbol", "HDFC")
     model_type = request.json.get("model", "ARIMA")
-    model_directory = f"C:/ProgramData/Jenkins/.jenkins/workspace/Stock Price Forecasting/App/flask-server/Models/pickle/{model_type}/"
+    model_directory = f"C:/Users/AnuragDixit/Desktop/{model_type}/"
 
     model_file_path = os.path.join(model_directory, f"{symbol}.pkl")
     if os.path.exists(model_file_path):
