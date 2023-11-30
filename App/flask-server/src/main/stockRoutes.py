@@ -34,10 +34,11 @@ def get_news_for_symbol():
 def get_prediction():
     symbol = request.json.get("symbol", "HDFC")
     model_type = request.json.get("model", "ARIMA")
-    model_directory = f"D:/SEM-7/Capstone/App/Stock-Price-Forecasting/App/flask-server/Models/{model_type}/"
+    model_directory = f"C:/Users/AnuragDixit/Desktop/{model_type}/"
 
     model_file_path = os.path.join(model_directory, f"{symbol}.pkl")
     if os.path.exists(model_file_path):
+        print("Model file found")
         try:
             with open(model_file_path, 'rb') as file:
                 model = joblib.load(file)
